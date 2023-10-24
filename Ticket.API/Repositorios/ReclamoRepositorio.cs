@@ -1,39 +1,53 @@
 using Ticket.API.Entidades;
+using Ticket.API.Repositorios.Interfaces;
 
 namespace Ticket.API.Repositorios;
 
 public class ReclamoRepositorio: IReclamoRepositorio
 {
-    public List<Reclamo> ListarTodosReclamo()
-    {
-        List<Reclamo> reclamos = new List<Reclamo>();
-        reclamos.Add(new Reclamo(){ NroTicketReclamo= 2345 , ApellidoCliente="Junco",NombreCliente="Jesica",CorreoCliente="jesibjunco@hotmail.com",DomicilioCliente="25 de mayo 331",TelefonoCliente=3483-640306,DescripcionReclamo="caño roto",OperadorTicketReclamo="Joa",FechaTicket= new DateTime(2023,06,02), HoraTicket= new (), ObservacionReclamo=""});
-        reclamos.Add(new Reclamo(){ NroTicketReclamo= 2346 , ApellidoCliente="Diaz",NombreCliente="Pedro",CorreoCliente="pedrito@hotmail.com",DomicilioCliente="San Martin 3454",TelefonoCliente=2421-434548,DescripcionReclamo="arbol caido",OperadorTicketReclamo="Joa",FechaTicket= new DateTime(2023,06,12), HoraTicket= new (), ObservacionReclamo=""});
-        
+    private readonly TicketAppContext _ticketAppContext;
 
-        return reclamos;
+    public ReclamoRepositorio(TicketAppContext ticketAppContext){
+        _ticketAppContext = ticketAppContext;
     }
 
     public bool AgregarReclamo (Reclamo reclamo)
     {
+        reclamo.NroTicketReclamo = reclamo.GetHashCode();
+        _ticketAppContext.Add(reclamo);
+        _ticketAppContext.SaveChanges();
+
         return true;
     }
-    public bool EliminarReclamo (Reclamo reclamo)
-    {
-        return true;
+
+    public Reclamo BuscarReclamo(int NroTicketReclamo){
+        return _ticketAppContext.Reclamo.Where(p => p.NroTicketReclamo == NroTicketReclamo).First();
     }
     public bool ActualizarReclamo (Reclamo reclamo)
     {
+        //Buscar empleado en la base de datos
+        Reclamo reclamoDB = _ticketAppContext.Reclamo.Where(p => p.NroTicketReclamo == reclamo.NroTicketReclamo).First();
+        reclamoDB.ApellidoCliente = reclamo.ApellidoCliente;
+        reclamoDB.NombreCliente = reclamo.NombreCliente;
+
+        _ticketAppContext.Update(reclamoDB);
+        _ticketAppContext.SaveChanges();
+
         return true;
     }
 
     public bool EliminarReclamo(int NroTicketReclamo)
     {
-        throw new NotImplementedException();
-    }
+       //Eliminar reclamo de la base de datos
+       Reclamo reclamoDB = _ticketAppContext.Reclamo.Where(p => p.NroTicketReclamo == NroTicketReclamo).First();
 
-    public List<Reclamo> ListarTodosReclamos()
+       _ticketAppContext.Remove(reclamoDB);
+       _ticketAppContext.SaveChanges();
+
+       return true;
+    }
+    public List<Reclamo> ListarReclamos()
     {
-        throw new NotImplementedException();
+         return _ticketAppContext.Reclamo.ToList();
     }
 }

@@ -1,37 +1,53 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ticket.API.Entidades;
+using Ticket.API.Repositorios.Interfaces;
 
-namespace Ticket.API.Repositorios
+namespace Ticket.API.Repositorios;
+
+public class EstadoTicketRepositorio : IEstadoTicketRepositorio
 {
-    public class EstadoTicketRepositorio: IEstadoTicketRepositorio
-    {
-        public List<EstadoTicket> ListarTodosEstadoTicket()
-        {
-            List<EstadoTicket> estados = new List<EstadoTicket>();
-            estados.Add(new EstadoTicket() { IdEstado = 1, NombreEstado = "Abierto" });
-            estados.Add(new EstadoTicket() { IdEstado = 2, NombreEstado = "En Proceso" });
-            estados.Add(new EstadoTicket() { IdEstado = 3, NombreEstado = "Cerrado" });
-            return estados;
-        }
-        public bool AgregarEstadoTicket(EstadoTicket estadoTicket)
-        {
-            return true;
-        }
-        public bool EliminarEstadoTicket(EstadoTicket estadoTicket)
-        {
-            return true;
-        }
-        public bool ActualizarEstadoTicket(EstadoTicket estadoTicket)
-        {
-            return true;
-        }
+    private readonly TicketAppContext _ticketAppContext;
 
-        public bool EliminarEstadoTicket(int IdEstado)
-        {
-            throw new NotImplementedException();
-        }
+    public EstadoTicketRepositorio(TicketAppContext ticketAppContext)
+    {
+        _ticketAppContext = ticketAppContext;
     }
+     public bool AgregarEstadoTicket(EstadoTicket estadoTicket)
+    {
+        _ticketAppContext.EstadoTicket.Add(estadoTicket);
+        _ticketAppContext.SaveChanges();
+        return true;
+    }
+   public bool ActualizarEstadoTicket(EstadoTicket estadoTicket)
+    {
+        EstadoTicket estadoTicketDB = _ticketAppContext.EstadoTicket.Where(p => p.IdEstado == estadoTicket.IdEstado).First();
+
+        estadoTicketDB.NombreEstado = estadoTicket.NombreEstado;
+        
+        _ticketAppContext.Update(estadoTicketDB);
+        _ticketAppContext.SaveChanges();
+        return true;
+    } 
+
+     public bool EliminarEstadoTicket(int IdEstado)
+    {
+        EstadoTicket estadoTicketDB = _ticketAppContext.EstadoTicket.Where(p => p.IdEstado == IdEstado).First();
+
+        _ticketAppContext.Remove(estadoTicketDB);
+        _ticketAppContext.SaveChanges();
+        return true;
+    } 
+
+   public EstadoTicket BuscarEstadoTicket(int IdEstado)
+    {
+        return _ticketAppContext.EstadoTicket.Where(p => p.IdEstado == IdEstado).First();
+    }
+    public List<EstadoTicket> ListarEstadoTicket()
+    {
+        return _ticketAppContext.EstadoTicket.ToList();
+    }
+
+    public bool EstadoTicket(){
+        return true;
+    } 
 }
+

@@ -7,5 +7,6 @@ public interface IPrioridadTicketRepositorio
     bool ActualizarPrioridadTicket(PrioridadTicket prioridadTicket);
     bool AgregarPrioridadTicket(PrioridadTicket prioridadTicket);
     bool EliminarPrioridadTicket(int IdPrioridadTicket);
-    List<PrioridadTicket> ListarTodosPrioridadTicket();
-}
+    public PrioridadTicket BuscarPrioridadTicket(int IdPrioridadTicket);
+    List<PrioridadTicket> ListarPrioridadTicket();
+} 

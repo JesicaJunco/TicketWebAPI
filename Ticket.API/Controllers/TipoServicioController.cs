@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ticket.API.Entidades;
-using Ticket.API.Repositorios;
+using Ticket.API.Servicios.Interfaces;
 
 namespace Ticket.API.Controllers;
 
@@ -13,22 +9,27 @@ namespace Ticket.API.Controllers;
     public class TipoServicioController: ControllerBase
     {    
     private readonly ILogger<TipoServicioController> _logger;
-    private readonly ITipoServicioRepositorio _tipoServicioRepositorio;
+    private readonly ITipoServicioServicio _tipoServicioServicio;
     
-    public TipoServicioController(ITipoServicioRepositorio tipoServicioRepositorio, ILogger<TipoServicioController> logger)
+    public TipoServicioController(ITipoServicioServicio tipoServicioServicio, ILogger<TipoServicioController> logger)
     {
-        _tipoServicioRepositorio = tipoServicioRepositorio;
+        _tipoServicioServicio = tipoServicioServicio;
         _logger = logger;
     }
 
     [HttpGet()]
     public IActionResult ObtenerTipoServicio()
     {
-        List <TipoServicio> resultado = _tipoServicioRepositorio.ListarTodosTipoServicio();
+        List <TipoServicio> resultado = _tipoServicioServicio.ListarTipoServicio();
         return Ok(resultado);
-
-
     }
+
+    [HttpGet("{IdTipoServicio}")]
+    public IActionResult BuscarTipoServicio(int IdTipoServicio){
+        TipoServicio tipoServicio = _tipoServicioServicio.BuscarTipoServicio(IdTipoServicio);
+        return Ok(tipoServicio);
+    }
+
      [HttpPost()]
     public IActionResult  AgregarTipoServicio(TipoServicio tipoServicio)
     {
@@ -37,9 +38,20 @@ namespace Ticket.API.Controllers;
             return BadRequest();
         }
 
-        _tipoServicioRepositorio.AgregarTipoServicio(tipoServicio);
+        _tipoServicioServicio.AgregarTipoServicio(tipoServicio);
 
         return Ok();
-        
+    }
+
+    [HttpPut()]
+    public IActionResult ModificarTipoServicio(TipoServicio tipoServicio){
+        _tipoServicioServicio.ActualizarTipoServicio(tipoServicio);
+        return Ok();
+    }
+
+    [HttpDelete("{IdTipoServicio}")]
+    public IActionResult EliminarTipoServicio(int IdTipoServicio){
+        _tipoServicioServicio.EliminarTipoServicio(IdTipoServicio);
+        return Ok();
     }
     }

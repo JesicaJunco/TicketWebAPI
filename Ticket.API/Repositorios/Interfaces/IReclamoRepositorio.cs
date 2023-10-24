@@ -1,6 +1,6 @@
 using Ticket.API.Entidades;
 
-namespace Ticket.API.Repositorios;
+namespace Ticket.API.Repositorios.Interfaces;
 
     public interface IReclamoRepositorio
     {
@@ -8,5 +8,6 @@ namespace Ticket.API.Repositorios;
         bool AgregarReclamo(Reclamo reclamo);
         bool EliminarReclamo(int NroTicketReclamo);
 
-        List <Reclamo> ListarTodosReclamos();
+        List <Reclamo> ListarReclamos();
+        public Reclamo BuscarReclamo(int NroTicketReclamo);
     }

@@ -1,65 +1,52 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Ticket.API.Entidades;
+using Ticket.API.Repositorios.Interfaces;
 
 namespace Ticket.API.Repositorios;
 
-public class TipoServicioRepositorio: ITipoServicioRepositorio
+public class TipoServicioRepositorio : ITipoServicioRepositorio
 {
-    public List<TipoServicio> ListarTodosTipoServicio()
-    {
-        List<TipoServicio> servicio = new List<TipoServicio>();
-        servicio.Add(new TipoServicio()
-        {
-            IdTipoServicio = 1,
-            NombreServicio = "Gas"
-        });
-        servicio.Add(new TipoServicio()
-        {
-            IdTipoServicio = 2,
-            NombreServicio = "Agua"
-        });
-        servicio.Add(new TipoServicio()
-        {
-            IdTipoServicio = 3,
-            NombreServicio = "Electricidad"
-        });
-        servicio.Add(new TipoServicio()
-        {
-            IdTipoServicio = 4,
-            NombreServicio = "Internet"
-        });
-        servicio.Add(new TipoServicio()
-        {
-            IdTipoServicio = 5,
-            NombreServicio = "Servicios Sociales"
-        });
-        servicio.Add(new TipoServicio()
-        {
-            IdTipoServicio = 6,
-            NombreServicio = "Recolección de Residuos"
-        });
-        return servicio;
-    }
-    public bool AgregarTipoServicio(TipoServicio servicio)
-    {
-       
+  private readonly TicketAppContext _ticketAppContext;
 
-        return true;
+    public TipoServicioRepositorio(TicketAppContext ticketAppContext){
+        _ticketAppContext = ticketAppContext;
     }
-    public bool EliminaripoServicio(TipoServicio servicio)
+        public bool EliminarTipoServicio(int IdTipoServicio)
     {
-        return true;
-    }
-    public bool ActualizarTipoServicio(TipoServicio servicio)
-    {
+        TipoServicio tipoServicioDB = _ticketAppContext.TipoServicio.Where(p => p.IdTipoServicio == IdTipoServicio).First();
+        _ticketAppContext.Remove(tipoServicioDB);
+        _ticketAppContext.SaveChanges();
         return true;
     }
 
-    public bool EliminarTipoServicio(int IdTipoServicio)
+    public TipoServicio BuscarTipoServicio(int IdPrioridadTicket)
     {
-        throw new NotImplementedException();
+        return _ticketAppContext.TipoServicio.Where(p => p.IdTipoServicio == IdPrioridadTicket).First();
     }
+
+    public List<TipoServicio> ListarTipoServicio()
+    {
+        return _ticketAppContext.TipoServicio.ToList();
+    }
+
+    public bool ActualizarTipoServicio(TipoServicio tipoServicio)
+    {
+        TipoServicio tipoServicioDB = _ticketAppContext.TipoServicio.Where(p => p.IdTipoServicio == tipoServicio.IdTipoServicio).First();
+
+        tipoServicioDB.NombreServicio = tipoServicio.NombreServicio;
+
+        _ticketAppContext.Update(tipoServicioDB);
+        _ticketAppContext.SaveChanges();
+        return true;
+    }
+
+    public bool AgregarTipoServicio(TipoServicio tipoServicio)
+    {
+        _ticketAppContext.TipoServicio.Add(tipoServicio);
+        _ticketAppContext.SaveChanges();
+        return true;
+    }
+
+    public bool EsTipoServicio(){
+        return true;
+    } 
 }

@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Ticket.API.Entidades;
 using Ticket.API.Repositorios;
+using Ticket.API.Servicios.Interfaces;
 
 namespace Ticket.API.Controllers;
 
@@ -13,33 +10,54 @@ namespace Ticket.API.Controllers;
 public class EstadoTicketController : ControllerBase
 {
     private readonly ILogger<EstadoTicketController> _logger;
-    private readonly IEstadoTicketRepositorio _estadoTicketRepositorio;
+    private readonly IEstadoTicketServicio _estadoTicketServicio;
 
-    public EstadoTicketController(IEstadoTicketRepositorio estadoTicketRepositorio, ILogger<EstadoTicketController> logger)
+    public EstadoTicketController(IEstadoTicketServicio _estadoTicketServicio, ILogger<EstadoTicketController> logger)
     {
-        _estadoTicketRepositorio = estadoTicketRepositorio;
+        _estadoTicketServicio = _estadoTicketServicio;
         _logger = logger;
 
     }
     [HttpGet()]
     public IActionResult ObtenerEstadoTicket()
     {
-        List<EstadoTicket> resultado = _estadoTicketRepositorio.ListarTodosEstadoTicket();
+        List<EstadoTicket> resultado = _estadoTicketServicio.ListarEstadoTicket();
         return Ok(resultado);
 
     }
-    [HttpPost()]
-   public IActionResult AgregarEstadoTicket(EstadoTicket estadoTicket)
+
+    [HttpGet("{estadoTicket}")]
+    public IActionResult BuscarEstadoTicket(int IdEstado)
     {
-       if (estadoTicket.IdEstado <= 0)
+        EstadoTicket estadoTicket = _estadoTicketServicio.BuscarEstadoTicket(IdEstado);
+        return Ok(estadoTicket);
+    }
+
+    [HttpPost()]
+    public IActionResult AgregarEstadoTicket(EstadoTicket estadoTicket)
+    {
+        if (estadoTicket.IdEstado <= 0)
         {
             return BadRequest();
         }
 
-        _estadoTicketRepositorio.AgregarEstadoTicket(estadoTicket);
+        _estadoTicketServicio.AgregarEstadoTicket(estadoTicket);
 
         return Ok();
     }
 
+    [HttpPut()]
+    public IActionResult ModificarEstadoTicket(EstadoTicket estadoTicket)
+    {
+        _estadoTicketServicio.ActualizarEstadoTicket(estadoTicket);
+        return Ok();
     }
+
+    [HttpDelete("{estadoTicket}")]
+    public IActionResult EliminarEstadoticket(int estadoTicket)
+    {
+        _estadoTicketServicio.EliminarEstadoTicket(estadoTicket);
+        return Ok();
+    }
+}
 
