@@ -69,3 +69,7 @@ c:\Users\jesib\TicketWebAPI\Ticket.API\obj\Debug\net7.0\scopedcss\bundle\Ticket.
 c:\Users\jesib\TicketWebAPI\Ticket.API\obj\Debug\net7.0\Ticket.API.csproj.CopyComplete
 c:\Users\jesib\TicketWebAPI\Ticket.API\obj\Debug\net7.0\Ticket.API.genruntimeconfig.cache
 c:\Users\jesib\TicketWebAPI\Ticket.API\obj\Debug\net7.0\ref\Ticket.API.dll
+C:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\NodaTime.dll
+C:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime.dll
+C:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\Npgsql.NodaTime.dll
+C:\Users\jesib\TicketWebAPI\Ticket.API\obj\Debug\net7.0\EFCoreNpgsqlNodaTime.cs

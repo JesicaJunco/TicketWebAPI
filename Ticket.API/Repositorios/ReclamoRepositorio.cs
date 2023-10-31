@@ -21,7 +21,7 @@ public class ReclamoRepositorio: IReclamoRepositorio
     }
 
     public Reclamo BuscarReclamo(int NroTicketReclamo){
-        return _ticketAppContext.Reclamo.Where(p => p.NroTicketReclamo == NroTicketReclamo).First();
+        return _ticketAppContext.Reclamo.Where(p => p.NroTicketReclamo == NroTicketReclamo).FirstOrDefault();
     }
     public bool ActualizarReclamo (Reclamo reclamo)
     {

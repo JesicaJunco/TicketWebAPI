@@ -35,10 +35,7 @@ public class Reclamo
     public string OperadorTicketReclamo {get; set;}
 
     [Column("fechaticket")]
-    public DateTime FechaTicket { get; set; }
-
-    [Column("horaticket")]
-    public DateTime HoraTicket { get; set; }
+    public int FechaTicket { get; set; }
 
     [Column("estadoticket")]
     public string EstadoTicket {get; set;}

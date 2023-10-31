@@ -19,7 +19,7 @@ namespace Ticket.API.Repositorios
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Reclamo>().ToTable("reclamo");
+        modelBuilder.Entity<Reclamo>().ToTable("reclamos");
         modelBuilder.Entity<EstadoTicket>().ToTable("estadoticket");
         modelBuilder.Entity<PrioridadTicket>().ToTable("prioridadticket");
         modelBuilder.Entity<TipoServicio>().ToTable("tiposervicio");
