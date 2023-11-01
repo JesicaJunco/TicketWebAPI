@@ -32,7 +32,7 @@ public class ReclamosController : ControllerBase
         Reclamo resultado = _reclamoServicio.BuscarReclamo(NroTicketReclamo);
         return Ok(resultado);
     }
-
+ 
      [HttpPost()]
     public IActionResult AgregarReclamo(ReclamoDTO reclamoDTO)
     {

@@ -73,3 +73,5 @@ C:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\NodaTime.dll
 C:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.NodaTime.dll
 C:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\Npgsql.NodaTime.dll
 C:\Users\jesib\TicketWebAPI\Ticket.API\obj\Debug\net7.0\EFCoreNpgsqlNodaTime.cs
+c:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\AutoMapper.dll
+c:\Users\jesib\TicketWebAPI\Ticket.API\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
