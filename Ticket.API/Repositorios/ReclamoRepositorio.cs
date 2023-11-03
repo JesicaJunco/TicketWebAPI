@@ -25,12 +25,7 @@ public class ReclamoRepositorio: IReclamoRepositorio
     }
     public bool ActualizarReclamo (Reclamo reclamo)
     {
-        //Buscar empleado en la base de datos
-        Reclamo reclamoDB = _ticketAppContext.Reclamo.Where(p => p.NroTicketReclamo == reclamo.NroTicketReclamo).First();
-        reclamoDB.ApellidoCliente = reclamo.ApellidoCliente;
-        reclamoDB.NombreCliente = reclamo.NombreCliente;
-
-        _ticketAppContext.Update(reclamoDB);
+        _ticketAppContext.Reclamo.Update(reclamo);
         _ticketAppContext.SaveChanges();
 
         return true;

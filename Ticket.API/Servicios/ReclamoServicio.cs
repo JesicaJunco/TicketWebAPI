@@ -17,7 +17,8 @@ public class ReclamoServicio : IReclamoServicio
     {
         Reclamo reclamoVerificacion = BuscarReclamo(reclamo.NroTicketReclamo);
         if(reclamoVerificacion != null){
-            return _reclamoRepositorio.ActualizarReclamo(reclamo);
+            reclamoVerificacion.FechaTicket = reclamo.FechaTicket;
+            return _reclamoRepositorio.ActualizarReclamo(reclamoVerificacion);
         }
         return false;
     }

@@ -9,74 +9,63 @@ namespace Ticket.API.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class ReclamosController : ControllerBase
-{    
+{
     private readonly ILogger<ReclamosController> _logger;
-    private readonly IReclamoServicio _reclamoServicio;  
-    private readonly IMapper _mapper;  
-    public ReclamosController(IReclamoServicio reclamoServicio, ILogger<ReclamosController>logger, IMapper mapper) {
+    private readonly IReclamoServicio _reclamoServicio;
+    private readonly IMapper _mapper;
+    public ReclamosController(IReclamoServicio reclamoServicio, ILogger<ReclamosController> logger, IMapper mapper)
+    {
         _reclamoServicio = reclamoServicio;
         _logger = logger;
         _mapper = mapper;
     }
-    
+
     [HttpGet()]
     public IActionResult ObtenerReclamo()
     {
         List<Reclamo> resultado = _reclamoServicio.ListarReclamo();
-        return Ok(resultado);
+
+        List<ReclamoDTO> resultadoDTO = _mapper.Map<List<Reclamo>, List<ReclamoDTO>>(resultado);
+        return Ok(resultadoDTO);
 
     }
 
     [HttpGet("{NroTicketReclamo}")]
-    public IActionResult BuscarReclamo(int NroTicketReclamo){
+    public IActionResult BuscarReclamo(int NroTicketReclamo)
+    {
         Reclamo resultado = _reclamoServicio.BuscarReclamo(NroTicketReclamo);
-        return Ok(resultado);
+
+        ReclamoDTO resultadoDTO = _mapper.Map<Reclamo, ReclamoDTO>(resultado);
+        return Ok(resultadoDTO);
     }
- 
-     [HttpPost()]
+
+    [HttpPost()]
     public IActionResult AgregarReclamo(ReclamoDTO reclamoDTO)
     {
-         if (reclamoDTO.NroTicketReclamo < 0)
+        if (reclamoDTO.NroTicketReclamo < 0)
         {
             return BadRequest();
         }
 
-         // Usa AutoMapper para convertir ReclamoDTO a Reclamo
-         Reclamo reclamo = _mapper.Map<Reclamo>(reclamoDTO);
+        // Usa AutoMapper para convertir ReclamoDTO a Reclamo
+        Reclamo reclamo = _mapper.Map<ReclamoDTO, Reclamo>(reclamoDTO);
+        _reclamoServicio.AgregarReclamo(reclamo);
 
-      /*   Reclamo reclamo = new Reclamo()
-       { 
-            ApellidoCliente = reclamoDTO.ApellidoCliente,
-            CorreoCliente = reclamoDTO.CorreoCliente,
-            DescripcionReclamo = reclamoDTO.DescripcionReclamo,
-            DomicilioCliente = reclamoDTO.DomicilioCliente,
-            EstadoTicket = reclamoDTO.EstadoTicket,
-            FechaTicket = reclamoDTO.FechaTicket,
-            NombreCliente = reclamoDTO.NombreCliente,
-            NroTicketReclamo = reclamoDTO.NroTicketReclamo,
-            OperadorTicketReclamo = reclamoDTO.OperadorTicketReclamo,
-            PrioridadTicket = reclamoDTO.PrioridadTicket,
-            TelefonoCliente = reclamoDTO.TelefonoCliente,
-            TipoServicio = reclamoDTO.TipoServicio, 
-            ObservacionReclamo = reclamoDTO.ObservacionReclamo,
-
-        };  */
-
- 
-         _reclamoServicio.AgregarReclamo(reclamo);
-
-         return Ok();
+        return Ok();
     }
 
     [HttpPut()]
-    public IActionResult ModificarReclamo(Reclamo reclamo){
+    public IActionResult ModificarReclamo(ReclamoDTO ReclamoDTO)
+    {
+        Reclamo reclamo = _mapper.Map<ReclamoDTO, Reclamo>(ReclamoDTO);
         _reclamoServicio.ActualizarReclamo(reclamo);
 
         return Ok();
     }
 
     [HttpDelete("{NroTicketReclamo}")]
-    public IActionResult EliminarReclamo(int NroTicketReclamo){
+    public IActionResult EliminarReclamo(int NroTicketReclamo)
+    {
         _reclamoServicio.EliminarReclamo(NroTicketReclamo);
 
         return Ok();

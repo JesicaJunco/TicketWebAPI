@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using AutoMapper;
 using Ticket.API.Profiles;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configura AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 
 // Add services to the container.
 
@@ -40,6 +40,9 @@ builder.Services.AddTransient<IReclamoServicio, ReclamoServicio>();
 builder.Services.AddTransient<ITipoServicioServicio, TipoServicioServicio>();
 builder.Services.AddTransient<IEstadoTicketServicio, EstadoTicketServicio>();
 builder.Services.AddTransient<IPrioridadTicketServicio, PrioridadTicketServicio>();
+
+// Configura AutoMapper
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 
