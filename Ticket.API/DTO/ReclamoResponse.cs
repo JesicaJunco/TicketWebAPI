@@ -1,6 +1,6 @@
 namespace Ticket.API.DTO;
 
-public class ReclamoDTO
+public class ReclamoResponse
 {
     public int NroTicketReclamo { get; set; }
     public string ApellidoCliente { get; set; }

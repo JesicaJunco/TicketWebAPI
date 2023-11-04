@@ -25,7 +25,7 @@ public class ReclamosController : ControllerBase
     {
         List<Reclamo> resultado = _reclamoServicio.ListarReclamo();
 
-        List<ReclamoDTO> resultadoDTO = _mapper.Map<List<Reclamo>, List<ReclamoDTO>>(resultado);
+        List<ReclamoResponse> resultadoDTO = _mapper.Map<List<Reclamo>, List<ReclamoResponse>>(resultado);
         return Ok(resultadoDTO);
 
     }
@@ -35,12 +35,12 @@ public class ReclamosController : ControllerBase
     {
         Reclamo resultado = _reclamoServicio.BuscarReclamo(NroTicketReclamo);
 
-        ReclamoDTO resultadoDTO = _mapper.Map<Reclamo, ReclamoDTO>(resultado);
+        ReclamoResponse resultadoDTO = _mapper.Map<Reclamo, ReclamoResponse>(resultado);
         return Ok(resultadoDTO);
     }
 
     [HttpPost()]
-    public IActionResult AgregarReclamo(ReclamoDTO reclamoDTO)
+    public IActionResult AgregarReclamo(ReclamoRequest reclamoDTO)
     {
         if (reclamoDTO.NroTicketReclamo < 0)
         {
@@ -48,16 +48,16 @@ public class ReclamosController : ControllerBase
         }
 
         // Usa AutoMapper para convertir ReclamoDTO a Reclamo
-        Reclamo reclamo = _mapper.Map<ReclamoDTO, Reclamo>(reclamoDTO);
+        Reclamo reclamo = _mapper.Map<ReclamoRequest, Reclamo>(reclamoDTO);
         _reclamoServicio.AgregarReclamo(reclamo);
 
         return Ok();
     }
 
     [HttpPut()]
-    public IActionResult ModificarReclamo(ReclamoDTO ReclamoDTO)
+    public IActionResult ModificarReclamo(ReclamoRequest ReclamoDTO)
     {
-        Reclamo reclamo = _mapper.Map<ReclamoDTO, Reclamo>(ReclamoDTO);
+        Reclamo reclamo = _mapper.Map<ReclamoRequest, Reclamo>(ReclamoDTO);
         _reclamoServicio.ActualizarReclamo(reclamo);
 
         return Ok();

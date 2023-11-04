@@ -17,7 +17,9 @@ public class ReclamoServicio : IReclamoServicio
     {
         Reclamo reclamoVerificacion = BuscarReclamo(reclamo.NroTicketReclamo);
         if(reclamoVerificacion != null){
-            reclamoVerificacion.FechaTicket = reclamo.FechaTicket;
+            reclamoVerificacion.ApellidoCliente = reclamo.ApellidoCliente;
+            reclamoVerificacion.TelefonoCliente = reclamo.TelefonoCliente;
+            reclamoVerificacion.FechaTicket = Utils.FechaUtilidades.ConvertToTimestamp(DateTime.Now);
             return _reclamoRepositorio.ActualizarReclamo(reclamoVerificacion);
         }
         return false;
@@ -26,6 +28,7 @@ public class ReclamoServicio : IReclamoServicio
     {
         Reclamo reclamoVerificacion = BuscarReclamo(reclamo.NroTicketReclamo);
         if(reclamoVerificacion == null){
+            reclamo.FechaTicket = Utils.FechaUtilidades.ConvertToTimestamp(DateTime.Now);
             return _reclamoRepositorio.AgregarReclamo(reclamo);
         }
         return false;
